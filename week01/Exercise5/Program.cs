@@ -19,7 +19,7 @@ class Program
     static string PromptUserName()
     {
         DisplayWelcome();
-        Console.WriteLine("Enter your name");
+        Console.WriteLine("Please enter your name:");
         string Username = Console.ReadLine();
 
         return Username;
@@ -27,7 +27,7 @@ class Program
 
     static int PromptUserNumber()
     {
-        Console.WriteLine("Enter your number");
+        Console.WriteLine("Please enter your favorite number:");
         int UserNumber = int.Parse(Console.ReadLine());
 
         return UserNumber;
