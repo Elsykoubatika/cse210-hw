@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 public class Journal 
@@ -15,6 +16,7 @@ public class Journal
         foreach (Entry entry in _entries)
         {
             entry.Display();
+            Console.WriteLine();
         }
     }
 
@@ -31,6 +33,7 @@ public class Journal
                     outputFile.WriteLine();
                 }
                 Console.WriteLine($"Journal saved to file: {file}");
+                Console.WriteLine();
             }
         }
 
@@ -69,7 +72,13 @@ public class Journal
                     _promptText = parts[1].Trim(),
                     _entryText = parts[2].Trim()
                 };
+                _entries.Add(entry);
                 Console.WriteLine($"Date: {entry._date} - Prompt: {entry._promptText} \n{entry._entryText}");
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine($"Skipping invalid entry: {line}");
             }
         }
     }

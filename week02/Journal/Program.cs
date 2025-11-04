@@ -4,20 +4,14 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Please select one of the following choices: \n1-Write\n2-Display\n3-Load\n4-Save\n5-Quit");
-        Console.WriteLine("What would you like to do?");
-
-        DateTime theCurrentTime = DateTime.Now;
-        string dateText = theCurrentTime.ToShortDateString();
-
-        string answer;
-
         PromptGenerator prompt = new PromptGenerator();
         Journal journal = new Journal();
-        Entry answerEntry = new Entry();
 
         while (true)
         {
+            Console.WriteLine("Please select one of the following choices: \n1-Write\n2-Display\n3-Load\n4-Save\n5-Quit");
+            Console.WriteLine("What would you like to do?");
+
             if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > 5 )
             {
                 Console.WriteLine("Please enter a number between 1 and 5.");
@@ -26,24 +20,31 @@ class Program
 
             if (choice == 1) // add the text
             {
-                prompt.GetRandomPrompt();
-                Console.WriteLine(prompt.GetRandomPrompt());
+                string promptText = prompt.GetRandomPrompt();
+                Console.WriteLine(promptText);
 
-                answer = Console.ReadLine();
+                DateTime theCurrentTime = DateTime.Now;
+                string dateText = theCurrentTime.ToShortDateString();
 
-                answerEntry._date = dateText;
-                answerEntry._entryText = answer;
-                answerEntry._promptText = prompt.GetRandomPrompt();
+                string answer = Console.ReadLine();
+
+                Entry answerEntry = new Entry()
+                {
+                    _date = dateText,
+                    _promptText = promptText,
+                    _entryText = answer,
+                };
 
                 journal.AddEntry(answerEntry);
 
                 Console.WriteLine("Entry added successfully");
-
+                Console.WriteLine();
             }
         
             else if (choice == 2) // display
             {
                 journal.DisplayAll();
+                Console.WriteLine();
             }
 
             else if (choice == 4) // Save the file
