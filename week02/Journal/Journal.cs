@@ -134,7 +134,6 @@ public class Journal
             {
                 Console.WriteLine($"Date: {entry._date} - Prompt: {entry._promptText} \n{entry._entryText}");
                 Console.WriteLine();
-                Console.WriteLine(json);
             }
             
         }
