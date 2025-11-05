@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-public class Journal 
+using System.Text.Json;
+
+public class Journal
 {
     public List<Entry> _entries = new List<Entry>();
 
@@ -21,7 +23,7 @@ public class Journal
     }
 
     public void SaveToFile(string fileName)
-    {   
+    {
         try
         {
             string file = fileName;
@@ -46,7 +48,7 @@ public class Journal
 
     public void LoadFromFile(string fileName)
     {
-        string file = fileName; 
+        string file = fileName;
         if (!File.Exists(file))
         {
             Console.WriteLine($"File '{file}' not found");
@@ -80,6 +82,65 @@ public class Journal
             {
                 Console.WriteLine($"Skipping invalid entry: {line}");
             }
+        }
+    }
+
+    public void SaveToJson(string fileName)
+    {
+        try
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                IncludeFields = true
+            };
+
+            string json = JsonSerializer.Serialize(_entries, options);
+
+            File.WriteAllText(fileName, json);
+            Console.WriteLine($"Journal saved to JSON file: {fileName}");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error saving JSON file: {e.Message}");
+        }
+    }
+
+    public void LoadFromJson(string fileName)
+    {
+        if (!File.Exists(fileName))
+        {
+            Console.WriteLine($"File '{fileName}' not found");
+            return;
+        }
+
+        try
+        {
+            string json = File.ReadAllText(fileName);
+
+            var options = new JsonSerializerOptions
+            {
+                IncludeFields = true
+            };
+
+            var loaded = JsonSerializer.Deserialize<List<Entry>>(json, options);
+
+            if (loaded != null)
+            {
+                _entries.AddRange(loaded);
+            }
+
+            foreach (var entry in loaded)
+            {
+                Console.WriteLine($"Date: {entry._date} - Prompt: {entry._promptText} \n{entry._entryText}");
+                Console.WriteLine();
+                Console.WriteLine(json);
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading JSON file: {ex.Message}");
         }
     }
 

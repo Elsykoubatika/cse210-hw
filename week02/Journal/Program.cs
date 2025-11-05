@@ -9,12 +9,12 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("Please select one of the following choices: \n1-Write\n2-Display\n3-Load\n4-Save\n5-Quit");
+            Console.WriteLine("Please select one of the following choices: \n1-Write\n2-Display\n3-Load\n4-Save\n5-Quit\n6-Load JSON\n7-Save JSON");
             Console.WriteLine("What would you like to do?");
 
-            if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > 5 )
+            if (!int.TryParse(Console.ReadLine(), out int choice) || choice < 1 || choice > 7)
             {
-                Console.WriteLine("Please enter a number between 1 and 5.");
+                Console.WriteLine("Please enter a number between 1 and 7.");
                 continue;
             }
 
@@ -40,7 +40,7 @@ class Program
                 Console.WriteLine("Entry added successfully");
                 Console.WriteLine();
             }
-        
+
             else if (choice == 2) // display
             {
                 journal.DisplayAll();
@@ -48,7 +48,7 @@ class Program
             }
 
             else if (choice == 4) // Save the file
-            {   
+            {
                 Console.WriteLine("Enter file's name to save: ");
                 string fileName = Console.ReadLine();
                 journal.SaveToFile(fileName);
@@ -60,11 +60,25 @@ class Program
                 string fileName = Console.ReadLine();
                 journal.LoadFromFile(fileName);
             }
-            
+
             else if (choice == 5) // Break the wool
             {
                 Console.WriteLine("Goodbye!");
                 break;
+            }
+            
+            else if (choice == 6) // Load JSON
+            {
+                Console.WriteLine("Enter file's name to load JSON: ");
+                string fileName = Console.ReadLine();
+                journal.LoadFromJson(fileName);
+            }
+
+            else if (choice == 7) // Save JSON1
+            {
+                Console.WriteLine("Enter file's name to save JSON: ");
+                string fileName = Console.ReadLine();
+                journal.SaveToJson(fileName);
             }
         }
     }
