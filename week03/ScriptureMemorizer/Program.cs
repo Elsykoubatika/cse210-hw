@@ -5,9 +5,13 @@ class Program
 {
     static void Main()
     {
-        var reference = new Reference("John", 3, 16);
-        string text = "For God so loved the world that he gave his only begotten Son";
-        var scripture = new Scripture(reference, text);
+        Library library = new Library();
+        Scripture scripture = library.GetRandomScripture();
+        if (scripture == null)
+        {
+            Console.WriteLine("No scripture found in the library.");
+            return;
+        }
 
         string input;
 
@@ -15,7 +19,8 @@ class Program
         {
             Console.Clear();
             Console.WriteLine(scripture.GetDisplayText());
-            Console.WriteLine("\nPress Enter to hide more words or type 'quit' to finish.");
+            Console.WriteLine("\nPress Enter to hide words, or type 'quit' to exit.");
+            
             input = Console.ReadLine();
 
             if (input?.ToLower() != "quit")

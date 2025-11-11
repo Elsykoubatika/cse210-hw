@@ -2,38 +2,49 @@ using System;
 
 public class Reference
 {
-    private string _book;
-    private int _chapter;
-    private int _verse;
-    private int _endverse;
+    public string _Book;
+    public int _Chapter;
+    public int _StartVerse;
+    public int _EndVerse;
 
     public Reference()
     {
-        _book = "Jean";
-        _chapter = 0;
-        _verse = 0;
-        _endverse = 0;
+        _Book = "Jean";
+        _Chapter = 0;
+        _StartVerse = 0;
+        _EndVerse = 0;
     }
 
     public Reference(string book, int chapter, int verse)
     {
-        _book = book;
-        _chapter = chapter;
-        _verse = verse;
+        _Book = book;
+        _Chapter = chapter;
+        _StartVerse = verse;
+        _EndVerse = verse; 
     }
 
     public Reference(string book, int chapter, int verse, int endverse)
     {
-        _book = book;
-        _chapter = chapter;
-        _verse = verse;
-        _endverse = endverse;
+        _Book = book;
+        _Chapter = chapter;
+        _StartVerse = verse;
+        _EndVerse = endverse;
+    }
+
+    public static Reference Parse(string reference)
+    {
+        return new Reference();
     }
 
     public string GetDisplayText()
-    {   
-        string reference = $"{_book}{_chapter}:{_verse}-{_endverse}";
-        return reference;
+    {
+        if (_StartVerse == _EndVerse)
+        {
+            return $"{_Book} {_Chapter}:{_StartVerse}";
+        }
+        else
+        {
+            return $"{_Book} {_Chapter}:{_StartVerse}-{_EndVerse}";
+        }
     }
-
 }

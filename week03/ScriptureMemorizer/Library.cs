@@ -1,43 +1,84 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Linq.Expressions;
 
 public class Library
 {
-    private List<Reference> _references;
+    public List<Reference> _references;
     private List<Scripture> _scriptures;
-
+    private readonly Random _random = new Random();
     public Library()
     {
         _references = new List<Reference>();
         _scriptures = new List<Scripture>();
-        string filePath = "scriptures.txt";
+        string filePath = "D:/Cproject/Cours BYU/cse210-hw/week03/ScriptureMemorizer/scripture.txt";
         LoadScripturesFromFile(filePath);
     }
 
-    private void LoadScripturesFromFile(string filePath)
+    public void LoadScripturesFromFile(string filePath)
     {
-        if (!File.Exists(filePath))
+        string file = filePath;
+        if (!File.Exists(file))
         {
-            Console.WriteLine($"File not found: {filePath}");
+            Console.WriteLine($"File not found: {file}");
             return;
         }
 
-        var lines = File.ReadAllLines(filePath);
-        foreach (var line in lines)
+        string[] lines = File.ReadAllLines(file);
+
+        foreach (string line in lines)
         {
-            var parts = line.Split('|');
-            if (parts.Length == 5)
+            if (string.IsNullOrWhiteSpace(line))
             {
-                var reference = new Reference(parts[0], int.Parse(parts[1]), int.Parse(parts[2]), int.Parse(parts[3]));
-                var text = parts[4];
+                continue;
+            }
+
+            string[] parts = line.Split('|');
+
+            if (parts.Length == 4)
+            {
+                var reference = new Reference
+                {
+                    _Book = parts[0],
+                    _Chapter = int.Parse(parts[1]),
+                    _StartVerse = int.Parse(parts[2]),
+                };
                 _references.Add(reference);
 
-                var scripture = new Scripture(reference, text);
+                var scripture = new Scripture(reference, parts[3].Trim());
                 _scriptures.Add(scripture);
+            }
+            else
+            {
+                Console.WriteLine($"Invalid line format (skipped): {line}");
             }
         }
     }
 
+    public Scripture GetRandomScripture()
+    {
+        if (_scriptures.Count == 0)
+        {
+            return null;
+        }
+
+        int index = _random.Next(_scriptures.Count);
+        return _scriptures[index];
+    }
+
+    public List<Scripture> GetAllScriptures()
+    {
+        return _scriptures;
+    }
+
+    public string GetDisplayText()
+    {
+        var displayText = "";
+        foreach (var scripture in _scriptures)
+        {
+            displayText += scripture.GetDisplayText() + "\n";
+        }
+        return displayText;
+    }
 }
