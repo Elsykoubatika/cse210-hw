@@ -5,7 +5,7 @@ public class Customer
 {
     private string _name;
     private Address _address;
-    
+
     private bool _isInUSA;
 
     public Customer(Address address, string name)

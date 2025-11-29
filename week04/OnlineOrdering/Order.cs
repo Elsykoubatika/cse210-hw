@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public class Order
 {
@@ -49,6 +50,11 @@ public class Order
     }
     public string GetShippingLabel()
     {
-        return $"Shipping Label:\nName: {_customer.GetName()}\nAddress: {_customer.GetAddress()}\n";
+        string Shipping = "";
+        foreach (Product product in _products)
+        {
+            Shipping += $"Shipping Label:\nName: {_customer.GetName()}\nAddress: {_customer.GetAddress()}\n";
+        }
+        return Shipping;
     }
 }
