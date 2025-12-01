@@ -49,6 +49,7 @@ public class Activity
             Console.Write("\b \b");
         }
         Console.WriteLine();
+        Console.Clear();
     }
 
     public void ShowSpinner()

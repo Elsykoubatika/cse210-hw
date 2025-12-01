@@ -44,7 +44,7 @@ public class ListingActivity : Activity
             string question = Console.ReadLine();
             GetListFromUser(question);
         }
-        Console.WriteLine($"You listed {_count} items\n");
+        Console.WriteLine($"You listed {GetCount()} items\n");
         ShowSpinner();
         Console.WriteLine($"You completed another {seconds} seconds of the listing activity");
         ShowPorcent();
