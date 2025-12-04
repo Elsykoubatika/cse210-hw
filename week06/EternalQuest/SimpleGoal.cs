@@ -3,7 +3,9 @@ using System;
 public class SimpleGoal : Goal
 {
     private bool _isComplete;
-    public SimpleGoal(string description, int points) : base("Simple Goal", description, points)
+
+    public SimpleGoal(string name, string description, int points) 
+        : base(name, description, points)
     {
         _isComplete = false;
     }
@@ -28,6 +30,8 @@ public class SimpleGoal : Goal
 
     public override string GetstringRepresentation()
     {
-        return $"SimpleGoal|{GetName()}|{GetDiscription()}|{GetPointe()}|{_isComplete}";
+        int completeFlag = _isComplete ? 1 : 0;
+
+        return $"Simple|{GetName()}|{GetDiscription()}|{GetPointe()}|{completeFlag}";
     }
 }
