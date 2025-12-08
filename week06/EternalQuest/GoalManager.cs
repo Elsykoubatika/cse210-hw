@@ -17,37 +17,56 @@ public class GoalManager
 
     public void Start()
     {
-        while (true)
+        bool travail = true;
+
+        while (travail == true)
         {
             Console.WriteLine();
             Console.WriteLine("=== Eternal Quest — Menu ===");
-            Console.WriteLine("1. Display score");
-            Console.WriteLine("2. List goal names");
-            Console.WriteLine("3. List goal details");
-            Console.WriteLine("4. Create a goal");
-            Console.WriteLine("5. Record an event");
-            Console.WriteLine("6. Save goals (file)");
-            Console.WriteLine("7. Load goals (file)");
-            Console.WriteLine("8. Quit");
+            Console.WriteLine("1. List Goal");
+            Console.WriteLine("2. Create a goal");
+            Console.WriteLine("3. Save goals");
+            Console.WriteLine("4. Load goals");
+            Console.WriteLine("5. Record Event");
+            Console.WriteLine("6. Quit");
             Console.Write("Choice: ");
             string choice = Console.ReadLine()?.Trim();
-
             Console.WriteLine();
-            switch (choice)
+            if (choice == "1")
             {
-                case "1": DisplayPlayerInfo(); break;
-                case "2": ListGoalNames(); break;
-                case "3": ListGoalDetails(); break;
-                case "4": CreateGoal(); break;
-                case "5": RecordEvent(); break;
-                case "6": SaveGoals(); break;
-                case "7": LoadGoals(); break;
-                case "8": return;
-                default: Console.WriteLine("Choix invalide."); break;
+                ListGoalDetails();
+            }
+            else if (choice == "2")
+            {
+                CreateGoal();
+            }
+            else if (choice == "5")
+            {
+                RecordEvent();
+            }
+            else if (choice == "3")
+            {
+                SaveGoals();
+            }
+            else if (choice == "4")
+            {
+                LoadGoals();
+            }
+            else if (choice == "6")
+            {
+                travail = false;
+            }
+            else
+            {
+                Console.WriteLine("Choix invalide.");
             }
         }
     }
 
+    public int GetScore()
+    {
+        return _score;
+    }
     public void DisplayPlayerInfo()
     {
         Console.WriteLine($"\nPlayer Score: {_score}");
@@ -63,9 +82,11 @@ public class GoalManager
     }
     public void ListGoalDetails()
     {
+
         if (_goal.Count == 0) { Console.WriteLine("No goals."); return; }
         for (int i = 0; i < _goal.Count; i++)
         {
+            DisplayPlayerInfo();
             Console.WriteLine($"{i + 1}. {_goal[i].GetDetailsString()}");
         }
         
@@ -135,6 +156,7 @@ public class GoalManager
         if (index >= 0 && index < _goal.Count)
         {
             _goal[index].RecordEvent();
+            _score += _goal[index].GetPointe();
         }
         else
         {
@@ -199,10 +221,10 @@ public class GoalManager
                     case "Simple" when parts.Length >= 5:
                         {
                             string name = parts[1];
-                            string desc = parts[2];
-                            int pts = int.TryParse(parts[3], out var p1) ? p1 : 0;
+                            string description = parts[2];
+                            int points = int.TryParse(parts[3], out var p1) ? p1 : 0;
                             bool done = parts[4] == "1";
-                            var g = new SimpleGoal(name, desc, pts);
+                            var g = new SimpleGoal(name, description, points);
                             if (done) g.RecordEvent();
                             newList.Add(g);
                             break;
@@ -250,15 +272,5 @@ public class GoalManager
         {
             Console.WriteLine($"Erreur lecture: {ex.Message}");
         }
-    }
-
-    private static string[] SplitPreservingEscapes(string line, char sep)
-    {
-        return line.Split(sep);
-    }
-
-    private static string Unescape(string s)
-    {
-        return s;
     }
 }
